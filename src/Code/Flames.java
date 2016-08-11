@@ -94,53 +94,51 @@ public class Flames extends JFrame {
 		mainFrame.add(mainPanel);
 	}
 	
-	private void initListeners(){
-		calculateButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(areFieldsNotValid()){
-					strengthLabel.setVisible(true);
-					strengthLabel.setText("Please enter names");
-					return;
-				}
-				Strength = getStrengthBasedOnNames();
+private void initListeners(){
+	calculateButton.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(areFieldsNotValid()){
 				strengthLabel.setVisible(true);
-				relationLabel.setVisible(true);
-				String relationShip = getRelationShipBasedOnNames();
-				relationLabel.setText(relationShip);
+				strengthLabel.setText("Please enter names");
+				return;
+			}
+			Strength = getStrengthBasedOnNames();
+			strengthLabel.setVisible(true);
+			relationLabel.setVisible(true);
+			String relationShip = getRelationShipBasedOnNames();
+			relationLabel.setText(relationShip);
+			
+			if(BuildConfig.isDefaultVersion()){
+				int newVersion = BuildConfig.DEBUG_VERSION;
+				BuildConfig.UseDebbugerVersion(newVersion);
+			}
 				
-				if(BuildConfig.isDefaultVersion()){
-					int newVersion = BuildConfig.DEBUG_VERSION;
-					BuildConfig.UseDebbugerVersion(newVersion);
-				}
-				
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						for(int i=0 ; i <= Strength; i++){
-							try {
-								Thread.sleep(80);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							strengthLabel.setText("Relationship Strength : "+i+"%");
-							strengthProgress.setValue(i);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					for(int i=0 ; i <= Strength; i++){
+						try {
+							Thread.sleep(80);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
+						strengthLabel.setText("Relationship Strength : "+i+"%");
+						strengthProgress.setValue(i);
 					}
-				}).start();
+				}
+			}).start();
 			}
 		});
-	 }
+	}
 	
 	private String getRelationShipBasedOnNames(){
-		
 		StringBuffer relationshipStatus = new StringBuffer(Capitalize(nameValue)+" and "+Capitalize(crushValue));
 		char[] nameArray = nameValue.toCharArray();
 		char[] crushArray = crushValue.toCharArray();
 		int nameLength = nameArray.length , crushLength = crushArray.length;
 		int common = 0;
-		
 			for(int i = 0; i < nameLength ; i++) {
 				for(int j = 0; j < crushLength ; j++) {
 					if(nameArray[i] == crushArray[j]){
@@ -150,21 +148,20 @@ public class Flames extends JFrame {
 					}
 				}
 			}
-			
 			int unMatchedLettersCount = (nameLength + crushLength) - 2 * common;
 			int key = getPositionBasedonCount(unMatchedLettersCount);
 			switch(key) {
-				case 1	: 	relationshipStatus.append(" are Good Friends");
+				case 1	: relationshipStatus.append(" are Good Friends");
 								break;
-				case 2	:	relationshipStatus.append(" love each other <3");
+				case 2	: relationshipStatus.append(" love each other <3");
 								break;
-				case 16 :	relationshipStatus.append(" have lot of Affection");
+				case 16 : relationshipStatus.append(" have lot of Affection");
 								break;
-				case 4	:	relationshipStatus.append(" are going to Marry");
+				case 4	: relationshipStatus.append(" are going to Marry");
 								break;
-				case 5	:	relationshipStatus.append(" hate each other");
+				case 5	: relationshipStatus.append(" hate each other");
 								break;
-				case 6 :	relationshipStatus.append(" are sibblings");
+				case 6  : relationshipStatus.append(" are sibblings");
 								break;
 				default : relationshipStatus.append(" are made for each other");
 			}
@@ -187,31 +184,20 @@ public class Flames extends JFrame {
 				switch(unMatchedLettersCount)
 				 	{
 						case 3:
-						case 5:
-								finalPosition = 1;
-								break;
+						case 5:finalPosition = 1;break;
 						case 2:
-						case 4:
-								finalPosition = 5;
-								break;
-						case 6:
-								finalPosition = 4;
-								break;
-						case 1:
-								finalPosition = 6;
-								break;
+						case 4:finalPosition = 5;break;
+						case 6:finalPosition = 4;break;
+						case 1:finalPosition = 6;break;
 				 	}
 		}else {
 			char[] swap=new char[100];
 			char store[]=new char[100];
-			
 			int i = 6;
-			 
 			for(int j = 0; j < 5; j++, i--) {
 				int del = unMatchedLettersCount % i;
 				 if(del == 0)
 				     del = i;
-	
 				 for(int f = 0;f < i; f++, ++del)
 				 {
 				     if(del >= i)
@@ -220,7 +206,6 @@ public class Flames extends JFrame {
 				     }
 				     store[f] = flames[del]; 
 				 }
-				 
 				 for (int h=0;h<i;h++)
 					{
 						swap[h] = store[h];
@@ -228,18 +213,16 @@ public class Flames extends JFrame {
 						flames[h] = swap[h];
 					}
 			 }
-
 			switch(flames[0])
 				{
-					case 'f':	finalPosition = 1; break;
-					case 'l':	finalPosition = 2; break;
-					case 'a':	finalPosition = 3; break;
-					case 'm':	finalPosition = 4; break;
-					case 'e':	finalPosition = 5; break;
-					case 's':	finalPosition = 6; break;
+					case 'f':finalPosition = 1; break;
+					case 'l':finalPosition = 2; break;
+					case 'a':finalPosition = 3; break;
+					case 'm':finalPosition = 4; break;
+					case 'e':finalPosition = 5; break;
+					case 's':finalPosition = 6; break;
 				}
-		}
-		    
+		 }  
 		return finalPosition;
 	}
 
