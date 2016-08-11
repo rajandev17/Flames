@@ -94,41 +94,41 @@ public class Flames extends JFrame {
 		mainFrame.add(mainPanel);
 	}
 	
-private void initListeners(){
-	calculateButton.addActionListener(new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(areFieldsNotValid()){
-				strengthLabel.setVisible(true);
-				strengthLabel.setText("Please enter names");
-				return;
-			}
-			Strength = getStrengthBasedOnNames();
-			strengthLabel.setVisible(true);
-			relationLabel.setVisible(true);
-			String relationShip = getRelationShipBasedOnNames();
-			relationLabel.setText(relationShip);
-			
-			if(BuildConfig.isDefaultVersion()){
-				int newVersion = BuildConfig.DEBUG_VERSION;
-				BuildConfig.UseDebbugerVersion(newVersion);
-			}
-				
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					for(int i=0 ; i <= Strength; i++){
-						try {
-							Thread.sleep(80);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						strengthLabel.setText("Relationship Strength : "+i+"%");
-						strengthProgress.setValue(i);
-					}
+	private void initListeners(){
+		calculateButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(areFieldsNotValid()){
+					strengthLabel.setVisible(true);
+					strengthLabel.setText("Please enter names");
+					return;
 				}
-			}).start();
+				Strength = getStrengthBasedOnNames();
+				strengthLabel.setVisible(true);
+				relationLabel.setVisible(true);
+				String relationShip = getRelationShipBasedOnNames();
+				relationLabel.setText(relationShip);
+				
+				if(BuildConfig.isDefaultVersion()){
+					int newVersion = BuildConfig.DEBUG_VERSION;
+					BuildConfig.UseDebbugerVersion(newVersion);
+				}
+				
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						for(int i=0 ; i <= Strength; i++){
+							try {
+								Thread.sleep(80);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							strengthLabel.setText("Relationship Strength : "+i+"%");
+							strengthProgress.setValue(i);
+						}
+					}
+				}).start();
 			}
 		});
 	}
